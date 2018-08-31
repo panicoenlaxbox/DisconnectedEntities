@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2016
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisconnectedEntities.Tests", "DisconnectedEntities.Tests\DisconnectedEntities.Tests.csproj", "{2338942E-DE8B-4DBA-BEEE-BDA5CC4C974C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2338942E-DE8B-4DBA-BEEE-BDA5CC4C974C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2338942E-DE8B-4DBA-BEEE-BDA5CC4C974C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2338942E-DE8B-4DBA-BEEE-BDA5CC4C974C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2338942E-DE8B-4DBA-BEEE-BDA5CC4C974C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AAAD646D-239B-411A-887E-0EC8E8794685}
+	EndGlobalSection
+EndGlobal
