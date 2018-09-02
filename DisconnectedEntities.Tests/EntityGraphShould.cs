@@ -4,14 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace DisconnectedEntities.Tests
 {
-    /// <summary>
-    /// http://www.entityframeworktutorial.net/efcore/working-with-disconnected-entity-graph-ef-core.aspx
-    /// </summary>
     [Collection("EfCollection")]
     public class EntityGraphShould
     {
@@ -57,7 +55,6 @@ namespace DisconnectedEntities.Tests
             {
                 Country = new Country()
                 {
-                    Id = 1,
                     Name = "Spain"
                 },
                 Orders = new Collection<Order>()
@@ -72,9 +69,10 @@ namespace DisconnectedEntities.Tests
                 context.Customers.Update(customer);
 
                 context.ChangeTracker.Entries().Should().HaveCount(4);
+
                 context.Entry(customer).State.Should().Be(EntityState.Added);
-                context.Entry(customer.Country).State.Should().Be(EntityState.Modified);
-                context.ChangeTracker.Entries<Order>().Should().ContainSingle(entry => entry.State == EntityState.Modified);
+                context.Entry(customer.Country).State.Should().Be(EntityState.Added);
+                context.ChangeTracker.Entries<Order>().Should().ContainSingle(entry => entry.State == EntityState.Modified && entry.Entity.Id == 1);
                 context.ChangeTracker.Entries<Order>().Should().ContainSingle(entry => entry.State == EntityState.Added);
             }
         }
@@ -109,12 +107,21 @@ namespace DisconnectedEntities.Tests
         }
 
         [Fact]
-        public void throws_an_exception_when_removing_a_graph_with_a_root_entity_without_a_key_value()
+        public void throws_an_exception_when_removing_a_graph_with_a_root_entity_with_auto_generated_key_without_a_key_value()
         {
             using (var context = _fixture.CreateDbContext())
             {
                 Action action = () => context.Customers.Remove(new Customer());
                 action.Should().Throw<InvalidOperationException>();
+            }
+        }
+
+        [Fact]
+        public void does_not_throw_an_exception_when_removing_a_graph_with_a_root_entity_with_no_auto_generated_key_without_a_key_value()
+        {
+            using (var context = _fixture.CreateDbContext())
+            {
+                context.Products.Remove(new Product());
             }
         }
 
@@ -187,7 +194,7 @@ namespace DisconnectedEntities.Tests
         [Theory]
         [InlineData(EntityState.Modified)]
         [InlineData(EntityState.Deleted)]
-        public void throws_an_exception_when_attaching_a_root_entity_without_a_key_value_and_desired_entity_state(EntityState state)
+        public void throws_an_exception_when_attaching_a_root_entity_with_auto_generated_key_without_a_key_value_and_desired_entity_state(EntityState state)
         {
             using (var context = _fixture.CreateDbContext())
             {

@@ -10,5 +10,12 @@ namespace DisconnectedEntities.Tests.Models
         }
 
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Product> Products { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>().Property<int>(c => c.Id).ValueGeneratedNever();
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
